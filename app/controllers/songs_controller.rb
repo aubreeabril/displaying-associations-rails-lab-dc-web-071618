@@ -1,5 +1,7 @@
 class SongsController < ApplicationController
+  before_action :find_song, only: [:show, :edit, :update]
   def index
+    @songs = Song.all
   end
 
   def show
@@ -19,12 +21,9 @@ class SongsController < ApplicationController
   end
 
   def edit
-    @song = Song.find(params[:id])
   end
 
   def update
-    @song = Song.find(params[:id])
-
     @song.update(song_params)
 
     if @song.save
@@ -46,5 +45,9 @@ class SongsController < ApplicationController
   def song_params
     params.require(:song).permit(:title)
   end
-end
 
+  def find_song
+    @song = Song.find(params[:id])
+  end
+
+end
